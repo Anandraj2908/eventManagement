@@ -1,0 +1,19 @@
+# Node.js dependencies
+node_modules/
+bower_components/
+
+# Logs and backups
+*.log
+logs/
+**/*.backup.*
+**/*.back.*
+
+
+# IDE and editor files
+*.sublime*
+*.env
+
+# Design and media files
+psd/
+thumb/
+sketch/
