@@ -31,37 +31,42 @@ const createTask = asyncHandler(
 
 const updateTaskStatus = asyncHandler(
     async (req, res) => {
-        const {taskId} = req.params;
-        const {status} = req.body;
+        const { taskId } = req.params;
 
-        if(!status){
-            throw new ApiError(400, "Status is required")
+        const task = await Task.findById(taskId);
+
+        if (!task) {
+            throw new ApiError(404, "Task not found");
         }
 
-        const validStatuses = ['Pending', 'Completed'];
-        if (!validStatuses.includes(status)) {
-            throw new ApiError(400, "Invalid status. Valid statuses are 'Pending' or 'Completed'.");
-        }
+        const newStatus = task.status === 'Pending' ? 'Completed' : 'Pending';
 
-        const task = await Task.findByIdAndUpdate(taskId, {
-            status
-        }, {new: true})
+        const updatedTask = await Task.findByIdAndUpdate(
+            taskId,
+            { status: newStatus },
+            { new: true }
+        );
 
-        if(!task){
-            throw new ApiError(404, "Task not found")
+        if (!updatedTask) {
+            throw new ApiError(404, "Task not found");
         }
 
         return res.status(200).json(
-            new ApiResponse(200, task,"Task updated")
-        )
+            new ApiResponse(200, updatedTask, "Task updated")
+        );
     }
 );
+
 
 const getTasks = asyncHandler(
     async (req, res) => {
         const {eventId} = req.params;
 
-        const tasks = await Task.find({eventId});
+        const tasks = await Task.find({eventId})
+        .populate({
+            path: 'assignedTo', 
+            select: 'name',     
+        });
 
         return res.status(200).json(
             new ApiResponse(200, tasks,"Tasks")

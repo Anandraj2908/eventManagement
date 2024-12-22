@@ -71,8 +71,8 @@ const refreshAccessToken = asyncHandler(async (req,res) => {
     }
 })
 
-const registerUser = asyncHandler(
-    async (req, res) => {
+const registerUser = asyncHandler(async (req, res) => {
+    try{
         const {fullName, username, password} = req.body;
 
         if([fullName, username, password].some((field) => field?.trim() === "")){
@@ -102,77 +102,86 @@ const registerUser = asyncHandler(
         return res.status(201).json(
             new ApiResponse(200, createdUser, "User created successfully")
         )
+    }catch(error){
+        return res.status(error.statusCode).json(new ApiResponse(error.statusCode,[],error.message))
     }
-)
+})
 
 const loginUser = asyncHandler( async (req, res) => {
-    const {username, password} = req.body;
+    try{
+        const {username, password} = req.body;
 
-    if(! username){
-        throw new ApiError(400, "username is required")
-    }
+        if(! username){
+            throw new ApiError(400, "username is required")
+        }
 
-    const user = await User.findOne({username});
+        const user = await User.findOne({username});
 
-    if(!user){
-        throw new ApiError(404," Invalid user credentials")
-    }
+        if(!user){
+            throw new ApiError(404," Invalid user credentials")
+        }
 
-    const isPasswordValid = await user.isPasswordCorrect(password)
-    if(!isPasswordValid){
-        throw new ApiError(404," Invalid user credentials")
-    }
+        const isPasswordValid = await user.isPasswordCorrect(password)
+        if(!isPasswordValid){
+            throw new ApiError(404," Invalid user credentials")
+        }
 
-    const {accessToken, refreshToken} = await generateAccessAndRefreshTokens(user._id);
-    
-    const loggedInUser = await User.findById(user._id).select("-password -refreshToken")
+        const {accessToken, refreshToken} = await generateAccessAndRefreshTokens(user._id);
+        
+        const loggedInUser = await User.findById(user._id).select("-password -refreshToken")
 
-    const options = {
-        httpOnly: true,
-        secure: true
-    }
+        const options = {
+            httpOnly: true,
+            secure: true
+        }
 
-    return res
-    .status(200)
-    .cookie("accessToken", accessToken, options)
-    .cookie("refreshToken",refreshToken, options)
-    .json(
-        new ApiResponse(
-            200,
-            {
-                user:loggedInUser,accessToken,refreshToken
-            },
-            "User loggedin successfully"
+        return res
+        .status(200)
+        .cookie("accessToken", accessToken, options)
+        .cookie("refreshToken",refreshToken, options)
+        .json(
+            new ApiResponse(
+                200,
+                {
+                    user:loggedInUser,accessToken,refreshToken
+                },
+                "User loggedin successfully"
+            )
         )
-    )
-
+    }catch(error){
+        return res.status(error.statusCode).json(new ApiResponse(error.statusCode,[],error.message))
+    }
 })
 
 const logoutUser = asyncHandler(async (req,res) => {
-
-    await User.findByIdAndUpdate(
-        req.user._id,
-        {
-            $unset:{
-                refreshToken:1 
+    try{
+        await User.findByIdAndUpdate(
+            req.user._id,
+            {
+                $unset:{
+                    refreshToken:1 
+                },
+                
             },
-            
-        },
-        {
-            new:true
+            {
+                new:true
+            }
+        )
+
+        const options = {
+            httpOnly: true,
+            secur: true
         }
-    )
 
-    const options = {
-        httpOnly: true,
-        secur: true
+        return res
+        .status(200)
+        .clearCookie("accessToken", options)
+        .clearCookie("refreshToken", options)
+        .json(new ApiResponse(200,[],"User logged Out"))
+    }catch(error){
+        console.log(error)
+        return res.status(error.statusCode).json(new ApiResponse(error.statusCode,[],error.message))
     }
-
-    return res
-    .status(200)
-    .clearCookie("accessToken", options)
-    .clearCookie("refreshToken", options)
-    .json(new ApiResponse(200,[],"User logged Out"))
 
 })
 

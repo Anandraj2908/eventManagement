@@ -2,6 +2,7 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { Attendee } from "../models/attendee.model.js";
+import { Task } from "../models/task.model.js";
 
 
 const createAttendee = asyncHandler(
@@ -37,6 +38,8 @@ const deleteAttendee = asyncHandler(
         if(!attendee){
             throw new ApiError(404, "Attendee not found")
         }
+
+        await Task.deleteMany({assignedTo:attendeeId});
 
         return res.status(200).json(
             new ApiResponse(200, null,"Attendee deleted")

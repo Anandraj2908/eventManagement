@@ -1,19 +1,25 @@
-# Node.js dependencies
-node_modules/
-bower_components/
-
-# Logs and backups
+# Logs
+logs
 *.log
-logs/
-**/*.backup.*
-**/*.back.*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
 
+node_modules
+dist
+dist-ssr
+*.local
 
-# IDE and editor files
-*.sublime*
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 *.env
-
-# Design and media files
-psd/
-thumb/
-sketch/
