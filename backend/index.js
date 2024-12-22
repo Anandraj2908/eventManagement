@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import dotenv from "dotenv";
 
 import mongoose from "mongoose";
 import eventRouter from "./routers/event.router.js";
@@ -22,12 +23,16 @@ app.use("/api/v1/attendee",attendeeRouter);
 app.use("/api/v1/user",userRouter);
 app.use("/api/v1/task",taskRouter);
 
+dotenv.config()
+
 try{
-    await mongoose.connect("mongodb://localhost:27017/eventm")
+    const db = process.env.MONGODB_URI
+    await mongoose.connect(db)
     console.log("MongoDB connected")
 
-    app.listen( 8083, () => {
-        console.log(`Server is running on port 8083`)
+    const PORT = process.env.PORT || 8000
+    app.listen( PORT, () => {
+        console.log(`Server is running on port ${PORT}`)
     })
 }
 catch(error){
