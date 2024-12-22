@@ -262,7 +262,12 @@ const Manage = () => {
                                     <td colSpan="4" className="text-center text-red-500 font-semibold">{error}</td>
                                 </tr>
                             ) : (
-                                tasks.filter(task => task.status === 'Pending').map(task => (
+                                tasks.sort((a, b) => {
+                                    const now = Date.now();
+                                    const dateA = new Date(a.date).getTime();
+                                    const dateB = new Date(b.date).getTime();
+                                    return Math.abs(dateA - now) - Math.abs(dateB - now);
+                                }).filter(task => task.status === 'Pending').map(task => (
                                     <tr key={task._id} className="border-b">
                                         <td className="px-4 py-4 text-sm text-center">
                                             <input
@@ -301,7 +306,13 @@ const Manage = () => {
                                     <td colSpan="4" className="text-center text-red-500 font-semibold">{error}</td>
                                 </tr>
                             ) : (
-                                tasks.filter(task => task.status === 'Completed').map(task => (
+                                tasks
+                                .sort((a, b) => {
+                                    const now = Date.now();
+                                    const dateA = new Date(a.date).getTime();
+                                    const dateB = new Date(b.date).getTime();
+                                    return Math.abs(dateA - now) - Math.abs(dateB - now);
+                                }).filter(task => task.status === 'Completed').map(task => (
                                     <tr key={task._id} className="border-b">
                                         <td className="px-4 py-4 text-sm text-center">{task.name}</td>
                                         <td className="px-4 py-4 text-sm text-center">{new Date(task.deadline).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' })}</td>

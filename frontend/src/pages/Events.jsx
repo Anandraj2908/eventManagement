@@ -140,7 +140,14 @@ const Events = () => {
                         {error}
                         </div>
                     ) : (
-                        events.map(event => (
+                        events
+                        .sort((a, b) => {
+                            const now = Date.now();
+                            const dateA = new Date(a.date).getTime();
+                            const dateB = new Date(b.date).getTime();
+                            return Math.abs(dateA - now) - Math.abs(dateB - now);
+                        })
+                        .map(event => (
                             <div key={event._id} className="bg-slate-500 rounded-lg shadow-lg p-6 relative">
                                 <EditEventModal
                                     isOpen={isEditModalOpen}
