@@ -4,7 +4,7 @@ This repository contains the codebase for an Event Management Application with a
 
 ## API Documentation
 
-[API Documentation Link](https://event-management-api-documentation.vercel.app/installation)
+[API Documentation Link](https://event-management-api-documentation.vercel.app/)
 
 ## File Structure
 
