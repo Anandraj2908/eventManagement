@@ -6,6 +6,10 @@ This repository contains the codebase for an Event Management Application with a
 
 [API Documentation Link](https://event-management-api-documentation.vercel.app/)
 
+## Presentation
+
+[Canva Presentation Link](https://event-mgm.my.canva.site/)
+
 ## File Structure
 
 ```
@@ -168,6 +172,8 @@ Ensure you have the following installed:
     ```env
     ACCESS_TOKEN_SECRET=your_access_token_secret
     ACCESS_TOKEN_EXPIRY=1d
+    REFRESH_TOKEN_SECRET=your_refresh_token_secret
+    REFRESH_TOKEN_EXPIRY=7d
     PORT=8083
     MONGODB_URI=mongodb://localhost:27017/eventm
     ```
@@ -189,6 +195,8 @@ If MongoDB is not installed, refer to the following youtube video  guide:
 | MONGODB_URI                | `mongodb://localhost:27017/eventm`           | MongoDB connection string       |
 | ACCESS_TOKEN_SECRET   | `your_access_token_secret`                   | Secret key for JWT tokens       |
 | ACCESS_TOKEN_EXPIRY   | `time`                                       | Token expiration time           |
+| REFRESH_TOKEN_SECRET   | `your_refresh_token_secret`                   | Secret key for JWT tokens       |
+| REFRESH_TOKEN_EXPIRY   | `time`                                       | Token expiration time           |
 
 ## Running the Application
 
