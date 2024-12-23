@@ -176,7 +176,7 @@ Ensure you have the following installed:
     ```
 
 ### MongoDB Installation & Setup Guide
-If MongoDB is not installed, refer to the following guide:
+If MongoDB is not installed, refer to the following youtube video guide:
 
 [![MongoDB Installation and Setup Guide](https://i.ytimg.com/vi/1LiZRYzgM2o/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCvJg8SoeDiCFk6WO72nf-ohr6Jlw)](https://youtu.be/1LiZRYzgM2o?si=b7MhrCzZsELSTx7p)
 
@@ -184,7 +184,7 @@ If MongoDB is not installed, refer to the following guide:
 | Key                   | Value                                        | Description                      |
 |-----------------------|----------------------------------------------|---------------------------------|
 | PORT                  | `8083`                                       | Port on which the server runs   |
-| DB_URI                | `mongodb://localhost:27017/eventm`           | MongoDB connection string       |
+| MONGODB_URI                | `mongodb://localhost:27017/eventm`           | MongoDB connection string       |
 | ACCESS_TOKEN_SECRET   | `your_access_token_secret`                   | Secret key for JWT tokens       |
 | ACCESS_TOKEN_EXPIRY   | `time`                                       | Token expiration time           |
 | REFRESH_TOKEN_SECRET  | `your_refresh_token_secret`                  | Secret key for JWT tokens       |
